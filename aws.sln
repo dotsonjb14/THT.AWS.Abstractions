@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tester", "tester\tester.csproj", "{FEF96705-D212-41EB-93C0-F52EC468B971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tester", "tester\tester.csproj", "{FEF96705-D212-41EB-93C0-F52EC468B971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THT.AWS.Abstractions", "THT.AWS.Abstractions\THT.AWS.Abstractions.csproj", "{43748E93-E08C-46BB-902C-8557FBE2435B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THT.AWS.Abstractions", "THT.AWS.Abstractions\THT.AWS.Abstractions.csproj", "{43748E93-E08C-46BB-902C-8557FBE2435B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A1F13CEA-5484-4A01-BF1E-A1495DC78F49}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,9 +21,6 @@ Global
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -27,7 +29,6 @@ Global
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Debug|x86.Build.0 = Debug|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEF96705-D212-41EB-93C0-F52EC468B971}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Release|x64.ActiveCfg = Release|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Release|x64.Build.0 = Release|Any CPU
 		{FEF96705-D212-41EB-93C0-F52EC468B971}.Release|x86.ActiveCfg = Release|Any CPU
@@ -44,5 +45,11 @@ Global
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x64.Build.0 = Release|Any CPU
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x86.ActiveCfg = Release|Any CPU
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {123D2292-4916-4BBF-9E3D-0166E67D36FB}
 	EndGlobalSection
 EndGlobal

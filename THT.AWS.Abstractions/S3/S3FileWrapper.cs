@@ -9,39 +9,26 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using THT.AWS.Abstractions.Credentials;
 using THT.AWS.Abstractions.Options;
 
 namespace THT.AWS.Abstractions.S3
 {
     public class S3FileWrapper : IFileWrapper
     {
-        private readonly S3Options _options;
+        private readonly S3Options options;
 
-        public S3FileWrapper(IOptions<S3Options> options)
-        {
-            _options = options.Value;
-        }
+        private readonly AWSCredentials credentials;
 
-        private AWSCredentials creds
+        public S3FileWrapper(IOptions<S3Options> options, ICrendentialsManager crendentialsManager)
         {
-            get
-            {
-                var chain = new CredentialProfileStoreChain();
-                AWSCredentials _creds;
-                if (chain.TryGetAWSCredentials(_options.AwsProfile, out _creds))
-                {
-                    return _creds;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            this.options = options.Value;
+            credentials = crendentialsManager.GetCredentials(this.options.AwsProfile);
         }
 
         public async Task DeleteAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(creds, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
             {
                 await s3.DeleteObjectAsync(bucketName, key);
             }
@@ -49,7 +36,7 @@ namespace THT.AWS.Abstractions.S3
 
         public async Task<bool> ExistsAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(creds, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
             {
                 try
                 {
@@ -66,29 +53,37 @@ namespace THT.AWS.Abstractions.S3
 
         public async Task<byte[]> ReadAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(creds, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
             using (var obj = await s3.GetObjectAsync(bucketName, key))
             using (var stream = obj.ResponseStream)
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
-                var retval = mem.ToArray();
 
-                if(obj.Metadata.Keys.Contains("hash"))
+                if(options.ValidateHashes)
                 {
-                    using (var md5 = MD5.Create())
-                    {
-                        var hashBytes = md5.ComputeHash(retval);
-                        var hash = Convert.ToBase64String(hashBytes);
+                    var retval = mem.ToArray();
 
-                        if(hash != obj.Metadata["hash"])
+                    if (obj.Metadata.Keys.Contains("hash"))
+                    {
+                        using (var md5 = MD5.Create())
                         {
-                            throw new Exception("Read failed hash check");
+                            var hashBytes = md5.ComputeHash(retval);
+                            var hash = Convert.ToBase64String(hashBytes);
+
+                            if (hash != obj.Metadata["hash"])
+                            {
+                                throw new Exception("Read failed hash check");
+                            }
                         }
                     }
-                }
 
-                return retval;
+                    return retval;
+                }
+                else
+                {
+                    return mem.ToArray();
+                }
             }
         }
 
@@ -96,23 +91,29 @@ namespace THT.AWS.Abstractions.S3
         {
             var hash = "";
 
-            using (var md5 = MD5.Create())
+            if(options.ValidateHashes)
             {
-                var hashBytes = md5.ComputeHash(data);
-                hash = Convert.ToBase64String(hashBytes);
+                using (var md5 = MD5.Create())
+                {
+                    var hashBytes = md5.ComputeHash(data);
+                    hash = Convert.ToBase64String(hashBytes);
+                }
             }
 
-            using (var s3 = new AmazonS3Client(creds, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
             {
                 var request = new PutObjectRequest()
                 {
                     BucketName = bucketName,
                     Key = key,
-                    InputStream = new MemoryStream(data),
-                    MD5Digest = hash
+                    InputStream = new MemoryStream(data)
                 };
 
-                request.Metadata.Add("hash", hash);
+                if(options.ValidateHashes)
+                {
+                    request.MD5Digest = hash;
+                    request.Metadata.Add("hash", hash);
+                }
 
                 await s3.PutObjectAsync(request);
             }

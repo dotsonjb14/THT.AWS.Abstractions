@@ -11,6 +11,11 @@
         public string AwsProfile { get; set; } = "default";
 
         /// <summary>
+        /// Whether or not to actually validate hashes for S3 (note, only works when actually using S3)
+        /// </summary>
+        public bool ValidateHashes { get; set; } = true;
+
+        /// <summary>
         /// Local file path for when using the local file store
         /// </summary>
         public string LocalPath { get; set; }
