@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Greeting
-          command: echo Hello, world.
+          command: echo Hello, world. $NUGET_KEY
       - run:
           name: Print the Current Time
           command: date
