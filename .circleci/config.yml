@@ -24,6 +24,10 @@ jobs:
           name: pack
           command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
+      - publish
+          name: publish
+          command: dotnet nuget push bin/Release/*.nupkg -k $NUGET_KEY
+          working_directory: THT.AWS.Abstractions
 
 workflows:
   version: 2
