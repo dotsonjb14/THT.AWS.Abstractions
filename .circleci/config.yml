@@ -37,4 +37,5 @@ workflows:
         requires:
           - build
     - release:
-        requires: hold
+        requires: 
+          - hold
