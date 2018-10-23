@@ -26,7 +26,7 @@ jobs:
           working_directory: THT.AWS.Abstractions
       - run: 
           name: publish
-          command: dotnet nuget push bin/Release/*.nupkg -k $NUGET_KEY -s https://www.nuget.org/api/v2
+          command: dotnet nuget push bin/Release/*.nupkg -k $NUGET_KEY -s https://www.nuget.org/
           working_directory: THT.AWS.Abstractions
 
 workflows:
@@ -43,4 +43,4 @@ workflows:
           - build
     - release:
         requires: 
-          - hold
+          - build
