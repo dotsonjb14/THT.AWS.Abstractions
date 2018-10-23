@@ -29,9 +29,12 @@ workflows:
   workflow:
     jobs:
     - build
-    - release:
+    - hold:
+        type: approval
         filters:
           branches:
-            only: release
+            only: master
         requires:
           - build
+    - release:
+        requires: hold
