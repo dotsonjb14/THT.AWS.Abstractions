@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run:
           name: pack
-          command: dotnet pack
+          command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
 
 workflows:
