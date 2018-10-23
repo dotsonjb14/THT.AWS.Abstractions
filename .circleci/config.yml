@@ -21,8 +21,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Nuget Publish
-          command: echo do publish...
+          name: pack
+          command: dotnet pack
+          working_directory: THT.AWS.Abstractions
 
 workflows:
   version: 2
