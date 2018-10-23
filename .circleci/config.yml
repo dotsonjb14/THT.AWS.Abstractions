@@ -15,3 +15,14 @@ jobs:
           name: Build
           command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
+  release:
+    docker:
+      - image: microsoft/dotnet:2.1-sdk
+    branches:
+      only:
+        - release
+    steps:
+      - checkout
+      - run:
+          name: Nuget Publish
+          command: echo do publish...
