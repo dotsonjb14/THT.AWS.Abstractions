@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Print the Current Time
           command: date
-      - run
+      - run:
           name: Build
           command: dotnet build
           working_directory: THT.AWS.Abstractions
