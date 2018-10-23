@@ -13,5 +13,5 @@ jobs:
           command: date
       - run:
           name: Build
-          command: dotnet build
+          command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
