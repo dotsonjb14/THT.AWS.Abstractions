@@ -18,9 +18,6 @@ jobs:
   release:
     docker:
       - image: microsoft/dotnet:2.1-sdk
-    branches:
-      only:
-        - release
     steps:
       - checkout
       - run:
@@ -33,5 +30,8 @@ workflows:
     jobs:
     - build
     - release:
+        filters:
+          branches:
+            only: release
         requires:
           - build
