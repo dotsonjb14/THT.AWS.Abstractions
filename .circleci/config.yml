@@ -18,8 +18,8 @@ jobs:
   release:
     docker:
       - image: microsoft/dotnet:2.1-sdk
-    branches:	
-      only:	
+    branches:
+      only:
         - release
     steps:
       - checkout
