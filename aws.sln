@@ -10,7 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A1F13CEA-5484-4A01-BF1E-A1495DC78F49}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.circleci\config.yml = .circleci\config.yml
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THT.AWS.Abstractions.Tests", "THT.AWS.Abstractions.Tests\THT.AWS.Abstractions.Tests.csproj", "{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,18 @@ Global
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x64.Build.0 = Release|Any CPU
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x86.ActiveCfg = Release|Any CPU
 		{43748E93-E08C-46BB-902C-8557FBE2435B}.Release|x86.Build.0 = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|x64.Build.0 = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Debug|x86.Build.0 = Debug|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|x64.ActiveCfg = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|x64.Build.0 = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|x86.ActiveCfg = Release|Any CPU
+		{C92F8BB0-6C04-43F8-B823-6D02F6CFB918}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

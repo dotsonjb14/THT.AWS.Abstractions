@@ -15,17 +15,21 @@ jobs:
           name: Build
           command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
+      - run:
+          name: Test
+          command: dotnet Test
+          working_directory: THT.AWS.Abstractions.Tests
   release:
     docker:
       - image: microsoft/dotnet:2.1-sdk
     steps:
       - checkout
       - run:
-          name: pack
+          name: Pack
           command: dotnet build --configuration Release
           working_directory: THT.AWS.Abstractions
       - run: 
-          name: publish
+          name: Publish
           command: dotnet nuget push bin/Release/*.nupkg -k $NUGET_KEY -s https://www.nuget.org/
           working_directory: THT.AWS.Abstractions
 
