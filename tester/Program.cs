@@ -19,16 +19,50 @@ namespace tester
         static async Task doStuff()
         {
             var credManager = new CrendentialsManager();
-            var x = new S3FileWrapper(Options.Create(new S3Options() {
+            var options = Options.Create(new S3Options()
+            {
                 AwsProfile = "my_profile",
-                ValidateHashes = false
-            }), credManager);
+                ValidateHashes = true,
+                LocalPath = "c:\\dev\\test_path\\"
+            });
 
-            await x.WriteAsync("somestuff-jd", "test.txt", Encoding.UTF8.GetBytes("Hello World\n"));
-            var data = await x.ReadAsync("somestuff-jd", "test.txt");
 
-            Console.Write(Encoding.UTF8.GetString(data));
+            await RunTest(new S3FileWrapper(options, credManager));
+            await RunTest(new LocalFileWrapper(options));
+
+            Console.Write("Press any key to exit...");
+
             Console.ReadKey();
+        }
+
+        static async Task RunTest(IFileWrapper fileWrapper)
+        {
+            var stringData = "Hello World\n";
+            var bucket = "somestuff-jd";
+            var key = "test.txt";
+
+            await fileWrapper.WriteAsync(bucket, key, Encoding.UTF8.GetBytes(stringData));
+
+            if(!await fileWrapper.ExistsAsync(bucket, key))
+            {
+                throw new Exception("file doesn't exist");
+            }
+
+            var data = await fileWrapper.ReadAsync(bucket, key);
+
+            if(Encoding.UTF8.GetString(data) != stringData)
+            {
+                throw new Exception("data does not match");
+            }
+
+            await fileWrapper.DeleteAsync(bucket, key);
+
+            if (await fileWrapper.ExistsAsync(bucket, key))
+            {
+                throw new Exception("file did not delete");
+            }
+
+            Console.WriteLine($"{fileWrapper.GetType().Name} is good :)");
         }
     }
 }

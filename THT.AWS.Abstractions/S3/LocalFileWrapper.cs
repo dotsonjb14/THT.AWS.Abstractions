@@ -43,6 +43,7 @@ namespace THT.AWS.Abstractions.S3
             return Task.Run(() =>
             {
                 var path = GetPath(bucketName, key);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllBytes(path, data);
             });
         }
