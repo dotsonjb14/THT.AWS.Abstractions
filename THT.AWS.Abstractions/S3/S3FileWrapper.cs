@@ -18,17 +18,15 @@ namespace THT.AWS.Abstractions.S3
     {
         private readonly S3Options options;
 
-        private readonly AWSCredentials credentials;
 
         public S3FileWrapper(IOptions<S3Options> options, ICrendentialsManager crendentialsManager)
         {
             this.options = options.Value;
-            credentials = crendentialsManager.GetCredentials(this.options.AwsProfile);
         }
 
         public async Task DeleteAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             {
                 await s3.DeleteObjectAsync(bucketName, key);
             }
@@ -36,7 +34,7 @@ namespace THT.AWS.Abstractions.S3
 
         public async Task<bool> ExistsAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             {
                 try
                 {
@@ -53,7 +51,7 @@ namespace THT.AWS.Abstractions.S3
 
         public async Task<byte[]> ReadAsync(string bucketName, string key)
         {
-            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             using (var obj = await s3.GetObjectAsync(bucketName, key))
             using (var stream = obj.ResponseStream)
             using (var mem = new MemoryStream())
@@ -100,7 +98,7 @@ namespace THT.AWS.Abstractions.S3
                 }
             }
 
-            using (var s3 = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USWest2))
+            using (var s3 = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             {
                 var request = new PutObjectRequest()
                 {
