@@ -8,7 +8,7 @@
         /// <summary>
         /// Aws profile for authenticating with S3
         /// </summary>
-        public string AwsProfile { get; set; } = "default";
+        public string AwsProfile { get; set; }
 
         /// <summary>
         /// Whether or not to actually validate hashes for S3 (note, only works when actually using S3)
