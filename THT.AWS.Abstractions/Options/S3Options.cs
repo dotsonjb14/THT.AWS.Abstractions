@@ -19,6 +19,10 @@
         /// Local file path for when using the local file store
         /// </summary>
         public string LocalPath { get; set; }
+
+        /// <summary>
+        /// Global region for S3 usage
+        /// </summary>
         public string Region { get; set; } = "us-west-2";
     }
 }

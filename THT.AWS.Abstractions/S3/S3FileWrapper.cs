@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using Amazon;
+using Amazon.Runtime;
 using Amazon.Runtime.CredentialManagement;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -25,29 +26,41 @@ namespace THT.AWS.Abstractions.S3
             this.crendentialsManager = crendentialsManager;
         }
         
-        private AmazonS3Client GetClient()
+        private AmazonS3Client GetClient(string region)
         {
             if(this.options.AwsProfile == null) 
             {
-                return new AmazonS3Client(Amazon.RegionEndpoint.GetBySystemName(this.options.AwsProfile));
+                return new AmazonS3Client(GetRegion(region));
             }
             else 
             {
-                return new AmazonS3Client(crendentialsManager.GetCredentials(this.options.AwsProfile), Amazon.RegionEndpoint.GetBySystemName(this.options.AwsProfile));
+                return new AmazonS3Client(crendentialsManager.GetCredentials(this.options.AwsProfile), GetRegion(region));
             }
         }
 
-        public async Task DeleteAsync(string bucketName, string key)
+        private RegionEndpoint GetRegion(string region)
         {
-            using (var s3 = GetClient())
+            if(region == null)
+            {
+                return RegionEndpoint.GetBySystemName(this.options.AwsProfile);
+            }
+            else 
+            {
+                return RegionEndpoint.GetBySystemName(region);
+            }
+        }
+
+        public async Task DeleteAsync(string bucketName, string key, string region = null)
+        {
+            using (var s3 = GetClient(region))
             {
                 await s3.DeleteObjectAsync(bucketName, key);
             }
         }
 
-        public async Task<bool> ExistsAsync(string bucketName, string key)
+        public async Task<bool> ExistsAsync(string bucketName, string key, string region = null)
         {
-            using (var s3 = GetClient())
+            using (var s3 = GetClient(region))
             {
                 try
                 {
@@ -62,9 +75,9 @@ namespace THT.AWS.Abstractions.S3
             }
         }
 
-        public async Task<byte[]> ReadAsync(string bucketName, string key)
+        public async Task<byte[]> ReadAsync(string bucketName, string key, string region = null)
         {
-            using (var s3 = GetClient())
+            using (var s3 = GetClient(region))
             using (var obj = await s3.GetObjectAsync(bucketName, key))
             using (var stream = obj.ResponseStream)
             using (var mem = new MemoryStream())
@@ -98,7 +111,7 @@ namespace THT.AWS.Abstractions.S3
             }
         }
 
-        public async Task WriteAsync(string bucketName, string key, byte[] data)
+        public async Task WriteAsync(string bucketName, string key, byte[] data, string region = null)
         {
             var hash = "";
 
@@ -111,7 +124,7 @@ namespace THT.AWS.Abstractions.S3
                 }
             }
 
-            using (var s3 = GetClient())
+            using (var s3 = GetClient(region))
             {
                 var request = new PutObjectRequest()
                 {

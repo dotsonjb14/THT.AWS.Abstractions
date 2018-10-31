@@ -17,7 +17,7 @@ namespace THT.AWS.Abstractions.S3
             _options = options.Value;
         }
 
-        public Task DeleteAsync(string bucketName, string key)
+        public Task DeleteAsync(string bucketName, string key, string region = null)
         {
             return Task.Run(() =>
             {
@@ -26,19 +26,19 @@ namespace THT.AWS.Abstractions.S3
             });
         }
 
-        public Task<bool> ExistsAsync(string bucketName, string key)
+        public Task<bool> ExistsAsync(string bucketName, string key, string region = null)
         {
             var path = GetPath(bucketName, key);
             return Task.FromResult(File.Exists(path));
         }
 
-        public Task<byte[]> ReadAsync(string bucketName, string key)
+        public Task<byte[]> ReadAsync(string bucketName, string key, string region = null)
         {
             var path = GetPath(bucketName, key);
             return Task.FromResult(File.ReadAllBytes(path));
         }
 
-        public Task WriteAsync(string bucketName, string key, byte[] data)
+        public Task WriteAsync(string bucketName, string key, byte[] data, string region = null)
         {
             return Task.Run(() =>
             {
