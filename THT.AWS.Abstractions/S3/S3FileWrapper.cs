@@ -29,11 +29,11 @@ namespace THT.AWS.Abstractions.S3
         {
             if(this.options.AwsProfile == null) 
             {
-                return new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
+                return new AmazonS3Client(Amazon.RegionEndpoint.GetBySystemName(this.options.AwsProfile));
             }
             else 
             {
-                return new AmazonS3Client(crendentialsManager.GetCredentials(this.options.AwsProfile), Amazon.RegionEndpoint.USWest2);
+                return new AmazonS3Client(crendentialsManager.GetCredentials(this.options.AwsProfile), Amazon.RegionEndpoint.GetBySystemName(this.options.AwsProfile));
             }
         }
 
